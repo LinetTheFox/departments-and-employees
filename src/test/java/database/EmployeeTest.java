@@ -22,7 +22,7 @@ public class EmployeeTest {
     @BeforeAll
     static void setup() {
         try {
-            dbManager = new DbManager();
+            dbManager = DbManager.getInstance();
             dbManager.addDepartment("DepartA");
         } catch (DatabaseException e) {
             fail(e.getMessage());

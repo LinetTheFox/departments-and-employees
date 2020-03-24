@@ -68,7 +68,7 @@ public class Employee {
     }
 
 
-    // Overriden methods for tests and debugging
+    // Overridden methods for tests and debugging
 
     // Not comparing date due to how it is represented within DB and in an object
     // TODO: use something else other than Date class

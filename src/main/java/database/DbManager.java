@@ -2,6 +2,7 @@ package database;
 
 import domain.Employee;
 import exception.DatabaseException;
+import exception.DbInitializationException;
 import exception.DbValueException;
 
 import java.sql.*;
@@ -14,6 +15,20 @@ import java.util.List;
  * @author linet
  */
 public class DbManager {
+
+    private static DbManager _instance;
+
+    public static DbManager getInstance() throws DbInitializationException {
+        if (_instance == null) {
+            try {
+                _instance = new DbManager();
+            } catch (DatabaseException e) {
+                throw new DbInitializationException("Could not initialize instance of DbManager");
+            }
+        }
+
+        return _instance;
+    }
 
     /**
      * The URL used to connect to the database, depending on the db may also pass login and
@@ -39,7 +54,7 @@ public class DbManager {
      * @throws DatabaseException when the initialization has failed - mostly if the database
      * connection is already busy.
      */
-    public DbManager() throws DatabaseException {
+    private DbManager() throws DatabaseException {
 
         try {
             Connection connection = DriverManager.getConnection(URL);
@@ -183,6 +198,32 @@ public class DbManager {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    public List<String> listDepartments() {
+
+        try {
+            Connection connection = DriverManager.getConnection(URL);
+
+            PreparedStatement prStmt = connection.prepareStatement("SELECT dep_name FROM departments");
+            ResultSet rs = prStmt.executeQuery();
+
+            List<String> list = new ArrayList<>();
+
+            while (rs.next()) {
+                String name = rs.getString("dep_name");
+                list.add(name);
+            }
+
+            prStmt.close();
+            connection.close();
+
+            return list;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
