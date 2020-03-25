@@ -1,5 +1,5 @@
-This is a project I was asked to do after the failed job interview
-in summer but after several system reinstallings it was successfully lost :<
+This is a project I was asked to do after the job interview
+in summer 2019 but after several system reinstallings it was successfully lost :<
 
 So now I decided to restart it over (and bloody push it to git this time)
 just for practise, after all I can't say I worked in Java EE a lot (without 
