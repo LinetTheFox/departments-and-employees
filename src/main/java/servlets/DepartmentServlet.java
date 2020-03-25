@@ -2,7 +2,8 @@ package servlets;
 
 import dao.DepartmentDao;
 import domain.Department;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -16,7 +17,7 @@ import java.util.List;
  */
 public class DepartmentServlet extends javax.servlet.http.HttpServlet {
 
-    private static Logger LOG = Logger.getLogger(DepartmentServlet.class);
+    private static Logger LOG = LoggerFactory.getLogger(DepartmentServlet.class);
 
     protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
 

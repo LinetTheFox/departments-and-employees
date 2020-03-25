@@ -3,7 +3,8 @@ package dao;
 import database.ConnectionFactory;
 import domain.Department;
 import domain.Employee;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import java.util.List;
  */
 public class EmployeeDao implements Dao<Employee> {
 
-    private static Logger LOG = Logger.getLogger(EmployeeDao.class);
+    private static Logger LOG = LoggerFactory.getLogger(EmployeeDao.class);
 
     @Override
     public Employee get(long id) {
@@ -45,7 +46,7 @@ public class EmployeeDao implements Dao<Employee> {
             try {
                 connection.close();
             } catch (SQLException ex) {
-                LOG.fatal("Failed to close the connection. ", ex);
+                LOG.error("Failed to close the connection. ", ex);
             }
         }
         return null;
@@ -81,7 +82,7 @@ public class EmployeeDao implements Dao<Employee> {
             try {
                 connection.close();
             } catch (SQLException ex) {
-                LOG.fatal("Failed to close the connection. ", ex);
+                LOG.error("Failed to close the connection. ", ex);
             }
         }
         return null;
@@ -108,7 +109,7 @@ public class EmployeeDao implements Dao<Employee> {
                 connection.close();
 
             } catch (SQLException ex) {
-                LOG.fatal("Failed to close the connection. ", ex);
+                LOG.error("Failed to close the connection. ", ex);
             }
         }
     }
@@ -134,7 +135,7 @@ public class EmployeeDao implements Dao<Employee> {
                 connection.close();
 
             } catch (SQLException ex) {
-                LOG.fatal("Failed to close the connection. ", ex);
+                LOG.error("Failed to close the connection. ", ex);
             }
         }
     }
@@ -156,7 +157,7 @@ public class EmployeeDao implements Dao<Employee> {
                 connection.close();
 
             } catch (SQLException ex) {
-                LOG.fatal("Failed to close the connection. ", ex);
+                LOG.error("Failed to close the connection. ", ex);
             }
         }
     }

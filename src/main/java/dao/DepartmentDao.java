@@ -2,7 +2,8 @@ package dao;
 
 import database.ConnectionFactory;
 import domain.Department;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,7 +17,7 @@ import java.util.List;
  */
 public class DepartmentDao implements Dao<Department> {
 
-    private static Logger LOG = Logger.getLogger(DepartmentDao.class);
+    private static Logger LOG = LoggerFactory.getLogger(DepartmentDao.class);
 
     @Override
     public Department get(long id) {
@@ -42,7 +43,7 @@ public class DepartmentDao implements Dao<Department> {
             try {
                 connection.close();
             } catch (SQLException ex) {
-                LOG.fatal("Failed to close the connection. ", ex);
+                LOG.error("Failed to close the connection. ", ex);
             }
         }
         return null;
@@ -72,7 +73,7 @@ public class DepartmentDao implements Dao<Department> {
             try {
                 connection.close();
             } catch (SQLException ex) {
-                LOG.fatal("Failed to close the connection. ", ex);
+                LOG.error("Failed to close the connection. ", ex);
             }
         }
         return null;
@@ -95,7 +96,7 @@ public class DepartmentDao implements Dao<Department> {
                 connection.close();
 
             } catch (SQLException ex) {
-                LOG.fatal("Failed to close the connection. ", ex);
+                LOG.error("Failed to close the connection. ", ex);
             }
         }
     }
@@ -118,7 +119,7 @@ public class DepartmentDao implements Dao<Department> {
                 connection.close();
 
             } catch (SQLException ex) {
-                LOG.fatal("Failed to close the connection. ", ex);
+                LOG.error("Failed to close the connection. ", ex);
             }
         }
     }
@@ -140,7 +141,7 @@ public class DepartmentDao implements Dao<Department> {
                 connection.close();
 
             } catch (SQLException ex) {
-                LOG.fatal("Failed to close the connection. ", ex);
+                LOG.error("Failed to close the connection. ", ex);
             }
         }
     }

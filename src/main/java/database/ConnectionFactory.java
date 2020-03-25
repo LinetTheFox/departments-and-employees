@@ -1,6 +1,7 @@
 package database;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,7 +14,7 @@ import java.sql.SQLException;
  */
 public class ConnectionFactory {
 
-    private static Logger LOG = Logger.getLogger(ConnectionFactory.class);
+    private static Logger LOG = LoggerFactory.getLogger(ConnectionFactory.class);
 
     static {
         try {
