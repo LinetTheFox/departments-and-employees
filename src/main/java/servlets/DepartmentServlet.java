@@ -1,21 +1,41 @@
 package servlets;
 
+import dao.DepartmentDao;
+import domain.Department;
+import org.apache.log4j.Logger;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.List;
 
 /**
  * @author linet
  */
 public class DepartmentServlet extends javax.servlet.http.HttpServlet {
+
+    private static Logger LOG = Logger.getLogger(DepartmentServlet.class);
+
     protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
 
     }
 
     protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
-//        request.getRequestDispatcher("/index.jsp").forward(request, response);
-        PrintWriter pw = response.getWriter();
-        pw.println("<html>");
-        pw.println("<h1>Hewwo :3</h1>");
-        pw.println("</html>");
+
+        DepartmentDao dao = new DepartmentDao();
+
+        List<Department> departments;
+        departments = dao.getAll();
+
+        request.setAttribute("departmentsList", departments);
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/departments.jsp");
+        dispatcher.forward(request, response);
+    }
+
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
     }
 }

@@ -1,5 +1,6 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
@@ -11,8 +12,10 @@ import java.util.Objects;
  * name as a field in this class.
  * @author linet
  */
-public class Employee {
+public class Employee implements Serializable {
 
+    // id is auto-generated in database
+    private Long id;
     private String name;
     private Date date;
     private String email;
@@ -25,6 +28,14 @@ public class Employee {
         this.email = email;
         this.salary = salary;
         this.departmentName = departmentName;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {

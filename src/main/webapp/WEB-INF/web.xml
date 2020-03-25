@@ -11,7 +11,16 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>DepartmentServlet</servlet-name>
-        <url-pattern>/hello</url-pattern>
+        <url-pattern>/departments</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>EmployeeServlet</servlet-name>
+        <servlet-class>servlets.EmployeeServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EmployeeServlet</servlet-name>
+        <url-pattern>/employees</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -22,5 +31,14 @@
         <servlet-name>HomeController</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
+
+    <error-page>
+        <error-code>500</error-code>
+        <location>/error.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/error.jsp</location>
+    </error-page>
 </web-app>
 
