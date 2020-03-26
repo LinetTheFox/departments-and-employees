@@ -5,6 +5,9 @@ So now I decided to restart it over (and bloody push it to git this time)
 just for practise, after all I can't say I worked in Java EE a lot (without 
 Spring Boot, JPA, MVC and all these pretty stuff).
 
+Note: the data/* database files contain some test random data you can play with
+if you want to try.
+
 **The task is as follows:**
 
 There are employees and departments.
