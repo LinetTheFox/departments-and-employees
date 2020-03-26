@@ -2,6 +2,7 @@ package service;
 
 import domain.Department;
 import domain.Employee;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -25,6 +26,17 @@ public class DepartmentsAndEmployeesServiceTest {
         } catch(Exception e) {
             e.printStackTrace();
             fail("Could not set up tests.", e);
+        }
+    }
+
+    @AfterAll
+    static void shutdown() {
+        try {
+            Department department = new Department("test");
+            departmentService.removeDepartment(department);
+        } catch(Exception e) {
+            e.printStackTrace();
+            fail("Could not shut down tests.", e);
         }
     }
 
@@ -185,6 +197,29 @@ public class DepartmentsAndEmployeesServiceTest {
     @Test
     public void cannotRemoveNotExistingEmployee() {
         Employee employee = new Employee("test_a", new Date(), "test_a", 69, "test");
+
+        try {
+            employeeService.removeEmployee(employee);
+            fail("Exception not thrown.");
+        } catch (Exception e) {
+            // do nothing
+        }
+    }
+
+    @Test
+    public void editingDepartmentEditsItsEmployees() {
+        Department departmentA = new Department("test_a");
+        Department departmentB = new Department("test_b");
+        Employee employee = new Employee("test_a", new Date(), "test_a", 69, "test_a");
+
+        try {
+            departmentService.addDepartment(departmentA);
+            employeeService.addEmployee(employee);
+            departmentService.editDepartment(departmentA, departmentB);
+            departmentService.removeDepartment(departmentB);
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
 
         try {
             employeeService.removeEmployee(employee);

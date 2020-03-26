@@ -11,17 +11,17 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>DepartmentServlet</servlet-name>
-        <url-pattern>/departments</url-pattern>
+        <url-pattern>/departments/*</url-pattern>
     </servlet-mapping>
 
-    <servlet>
-        <servlet-name>EmployeeServlet</servlet-name>
-        <servlet-class>servlets.EmployeeServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>EmployeeServlet</servlet-name>
-        <url-pattern>/employees</url-pattern>
-    </servlet-mapping>
+<!--    <servlet>-->
+<!--        <servlet-name>EmployeeServlet</servlet-name>-->
+<!--        <servlet-class>servlets.EmployeeServlet</servlet-class>-->
+<!--    </servlet>-->
+<!--    <servlet-mapping>-->
+<!--        <servlet-name>EmployeeServlet</servlet-name>-->
+<!--        <url-pattern>/employees</url-pattern>-->
+<!--    </servlet-mapping>-->
 
     <servlet>
         <servlet-name>HomeController</servlet-name>
@@ -34,11 +34,15 @@
 
     <error-page>
         <error-code>500</error-code>
-        <location>/error.jsp</location>
+        <location>/error/InternalError.jsp</location>
     </error-page>
     <error-page>
         <error-code>404</error-code>
-        <location>/error.jsp</location>
+        <location>/error/NotFoundError.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>400</error-code>
+        <location>/error/BadRequest.jsp</location>
     </error-page>
 </web-app>
 

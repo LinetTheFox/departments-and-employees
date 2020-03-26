@@ -11,7 +11,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-import static util.ServiceUtil.*;
+import static util.ServiceUtil.departmentExists;
+import static util.ServiceUtil.findIdOfDepartment;
 
 /**
  * @author linet
@@ -34,11 +35,21 @@ public class DepartmentService {
         return departments;
     }
 
+    public Department getDepartmentById(Long id) throws DataException {
+
+        Department department = departmentDao.get(id);
+        if (department == null) {
+            LOG.error("Could not retrieve the department.");
+            throw new DataException("Could not retrieve data.");
+        }
+        return department;
+    }
+
     public void addDepartment(Department department) throws ValidationException, DataException {
 
         List<Department> departments = this.listAllDepartments();
         if (departmentExists(department, departments)) {
-            LOG.error("Validation: department already exists.");
+            LOG.info("Validation: department already exists.");
             throw new ValidationException("Such department already exists!");
         }
 
@@ -46,10 +57,9 @@ public class DepartmentService {
     }
 
     public void editDepartment(Department oldDep, Department newDep) throws ValidationException, DataException {
-
         List<Department> departments = this.listAllDepartments();
         if (!departmentExists(oldDep, departments)) {
-            LOG.error("Validation: department doesn't exist.");
+            LOG.info("Validation: department doesn't exist.");
             throw new ValidationException("This department doesn't exist!");
         }
         if (departmentExists(newDep, departments)) {
@@ -62,7 +72,7 @@ public class DepartmentService {
 
         List<Employee> employees = employeeDao.getAll();
         if (employees == null) {
-            LOG.error("Could not retrieve employees list.");
+            LOG.info("Could not retrieve employees list.");
             throw new DataException("Could not retrieve data");
         }
         employees
@@ -76,7 +86,7 @@ public class DepartmentService {
 
         List<Department> departments = this.listAllDepartments();
         if (!departmentExists(department, departments)) {
-            LOG.error("Validation: department doesn't exist.");
+            LOG.info("Validation: department doesn't exist.");
             throw new ValidationException("This department doesn't exist!");
         }
 

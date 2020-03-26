@@ -44,7 +44,7 @@ public class EmployeeService {
         }
 
         if (!departmentExists(department, departments)) {
-            LOG.error("Validation: department doesn't exist.");
+            LOG.info("Validation: department doesn't exist.");
             throw new ValidationException("This department doesn't exist!");
         }
 
@@ -55,11 +55,21 @@ public class EmployeeService {
                 .collect(Collectors.toList());
     }
 
+    Employee getEmployeeById(Long id) throws DataException {
+
+        Employee employee = employeeDao.get(id);
+        if (employee == null) {
+            LOG.error("Could not retrieve the employee.");
+            throw new DataException("Could not retrieve data.");
+        }
+        return employee;
+    }
+
     public void addEmployee(Employee employee) throws ValidationException, DataException {
 
         List<Employee> employees = this.listAllEmployees();
         if (employeeEmailExists(employee, employees)) {
-            LOG.error("Validation: employee email already exists!");
+            LOG.info("Validation: employee email already exists!");
             throw new ValidationException("Employee email already exists!");
         }
 
@@ -70,7 +80,7 @@ public class EmployeeService {
         }
         Department newEmployeeDepartment = new Department(employee.getDepartmentName());
         if (!departmentExists(newEmployeeDepartment, departments)) {
-            LOG.error("Validation: such department doesn't exist");
+            LOG.info("Validation: such department doesn't exist");
             throw new ValidationException("Such department doesn't exist!");
         }
 
@@ -81,11 +91,11 @@ public class EmployeeService {
 
         List<Employee> employees = this.listAllEmployees();
         if (!employeeEmailExists(oldEmp, employees)) {
-            LOG.error("Validation: such employee doesn't exist.");
+            LOG.info("Validation: such employee doesn't exist.");
             throw new ValidationException("Employee doesn't exist!");
         }
         if (employeeEmailExists(newEmp, employees)) {
-            LOG.error("Validation: employee email already exists.");
+            LOG.info("Validation: employee email already exists.");
             throw new ValidationException("Employee email already exists!");
         }
 
@@ -96,7 +106,7 @@ public class EmployeeService {
         }
         Department newEmployeeDepartment = new Department(newEmp.getDepartmentName());
         if (!departmentExists(newEmployeeDepartment, departments)) {
-            LOG.error("Validation: such department doesn't exist");
+            LOG.info("Validation: such department doesn't exist");
             throw new ValidationException("Department doesn't exist");
         }
 
@@ -108,7 +118,7 @@ public class EmployeeService {
 
         List<Employee> employees = this.listAllEmployees();
         if (!employeeEmailExists(employee, employees)) {
-            LOG.error("Validation: such employee doesn't exist.");
+            LOG.info("Validation: such employee doesn't exist.");
             throw new ValidationException("Employee doesn't exist!");
         }
 
