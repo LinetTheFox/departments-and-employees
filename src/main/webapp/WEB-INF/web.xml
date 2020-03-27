@@ -13,16 +13,14 @@
         <servlet-name>DepartmentServlet</servlet-name>
         <url-pattern>/departments/*</url-pattern>
     </servlet-mapping>
-
-<!--    <servlet>-->
-<!--        <servlet-name>EmployeeServlet</servlet-name>-->
-<!--        <servlet-class>servlets.EmployeeServlet</servlet-class>-->
-<!--    </servlet>-->
-<!--    <servlet-mapping>-->
-<!--        <servlet-name>EmployeeServlet</servlet-name>-->
-<!--        <url-pattern>/employees</url-pattern>-->
-<!--    </servlet-mapping>-->
-
+    <servlet>
+        <servlet-name>EmployeeServlet</servlet-name>
+        <servlet-class>servlets.EmployeeServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EmployeeServlet</servlet-name>
+        <url-pattern>/employees/*</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>HomeController</servlet-name>
         <servlet-class>servlets.HomeServlet</servlet-class>

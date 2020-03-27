@@ -55,7 +55,7 @@ public class EmployeeService {
                 .collect(Collectors.toList());
     }
 
-    Employee getEmployeeById(Long id) throws DataException {
+    public Employee getEmployeeById(Long id) throws DataException {
 
         Employee employee = employeeDao.get(id);
         if (employee == null) {

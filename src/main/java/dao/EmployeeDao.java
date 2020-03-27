@@ -118,13 +118,14 @@ public class EmployeeDao implements Dao<Employee> {
     public void update(Long id, Employee employee) {
         Connection connection = ConnectionFactory.getConnection();
         try {
-            String query = "UPDATE employees SET name = ?, email = ?, salary = ?, dep_name = ? WHERE id = ?";
+            String query = "UPDATE employees SET name = ?, email = ?, hire_date = ?, salary = ?, dep_name = ? WHERE id = ?";
             PreparedStatement stmt = connection.prepareStatement(query);
             stmt.setString(1, employee.getName());
             stmt.setString(2, employee.getEmail());
-            stmt.setInt(3, employee.getSalary());
-            stmt.setString(4, employee.getDepartmentName());
-            stmt.setLong(5, id);
+            stmt.setDate(3, new Date(employee.getDate().getTime()));
+            stmt.setInt(4, employee.getSalary());
+            stmt.setString(5, employee.getDepartmentName());
+            stmt.setLong(6, id);
 
             stmt.executeUpdate();
             connection.close();

@@ -1,6 +1,5 @@
 package servlets;
 
-import dao.DepartmentDao;
 import domain.Department;
 import domain.Employee;
 import exception.DataException;
@@ -11,12 +10,8 @@ import service.DepartmentService;
 import service.EmployeeService;
 
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Stream;
 
 /**
  * @author linet
@@ -40,9 +35,12 @@ public class DepartmentServlet extends javax.servlet.http.HttpServlet {
             Department department = new Department(name);
             try {
                 departmentService.addDepartment(department);
+                response.sendRedirect("/dae/departments");
+                return;
             } catch (DataException e) {
-                LOG.error("Could not add the new department to database.", e);
+                LOG.error("Error 500: ." + e.getMessage(), e);
                 response.sendError(500);
+                return;
             } catch (ValidationException e) {
                 LOG.info("Received invalid data. Returning to the form.");
                 request.setAttribute("message", e.getMessage());
@@ -51,8 +49,6 @@ public class DepartmentServlet extends javax.servlet.http.HttpServlet {
                 dispatcher.forward(request, response);
                 return;
             }
-            response.sendRedirect("/dae/departments");
-            return;
         }
 
         // if path is ./departments/<id>/update
@@ -65,9 +61,12 @@ public class DepartmentServlet extends javax.servlet.http.HttpServlet {
                 Department oldDepartment = departmentService.getDepartmentById(id);
                 Department newDepartment = new Department(name);
                 departmentService.editDepartment(oldDepartment, newDepartment);
+                response.sendRedirect("/dae/departments");
+                return;
             } catch (DataException e) {
                 LOG.error("Could not add the new department to database.", e);
                 response.sendError(500);
+                return;
             } catch (ValidationException e) {
                 LOG.info("Received invalid data. Returning to the form.");
                 request.setAttribute("message", e.getMessage());
@@ -76,12 +75,11 @@ public class DepartmentServlet extends javax.servlet.http.HttpServlet {
                 dispatcher.forward(request, response);
                 return;
             }
-            response.sendRedirect("/dae/departments");
-            return;
         }
 
         response.sendError(500);
     }
+
 
 
     protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
@@ -94,13 +92,14 @@ public class DepartmentServlet extends javax.servlet.http.HttpServlet {
             try {
                 departments = departmentService.listAllDepartments();
                 request.setAttribute("departmentsList", departments);
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/departments.jsp");
+                dispatcher.forward(request, response);
+                return;
             } catch (DataException e) {
                 LOG.error("Error 500: " + e.getMessage() , e);
                 response.sendError(500, e.getMessage());
+                return;
             }
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/departments.jsp");
-            dispatcher.forward(request, response);
-            return;
         }
 
         String[] pathParts = pathInfo.split("/");
@@ -121,6 +120,7 @@ public class DepartmentServlet extends javax.servlet.http.HttpServlet {
             if (!pathParts[1].matches("\\d+")) {
                 LOG.warn("Client attempted to follow " + pathInfo + ". Sent error 404.");
                 response.sendError(404);
+                return;
             }
 
             // if path is ./departments/<id>
@@ -133,31 +133,35 @@ public class DepartmentServlet extends javax.servlet.http.HttpServlet {
             } catch(DataException e) {
                 LOG.error("Error 404: " + e.getMessage(), e);
                 response.sendError(404, e.getMessage());
+                return;
             }
             try {
                 employees = employeeService.listEmployeesFromDepartment(new Department(departmentName));
 
                 request.setAttribute("employeesList", employees);
                 request.setAttribute("departmentName", departmentName);
+                request.setAttribute("departmentId", id);
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/employees.jsp");
+                dispatcher.forward(request, response);
+                return;
             } catch (DataException e) {
                 LOG.error("Error 500: " + e.getMessage(), e);
                 response.sendError(500, e.getMessage());
+                return;
             } catch (ValidationException e) {
-                LOG.error("Error 500:" + e.getMessage(), e);
-                response.sendError(500, e.getMessage());
+                LOG.error("Error 404:" + e.getMessage(), e);
+                response.sendError(404, e.getMessage());
+                return;
             }
-
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/employees.jsp");
-            dispatcher.forward(request, response);
-            return;
         }
 
-        // if path is /departments/<id>/<action>
+        // if path is ./departments/<id>/<action>
         if (pathParts.length == 3) {
 
             if (!pathParts[1].matches("\\d+")) {
                 LOG.warn("Client attempted to follow " + pathInfo + ". Sent error 404.");
                 response.sendError(404);
+                return;
             }
 
             Long id = Long.parseLong(pathParts[1]);
@@ -169,33 +173,35 @@ public class DepartmentServlet extends javax.servlet.http.HttpServlet {
                     try {
                         department = departmentService.getDepartmentById(id);
                         request.setAttribute("department", department);
+                        RequestDispatcher dispatcher = request.getRequestDispatcher("/forms/departmentEditForm.jsp");
+                        dispatcher.forward(request, response);
+                        return;
                     } catch (DataException e) {
+                        LOG.error("Error 500: " + e.getMessage(), e);
                         response.sendError(500);
+                        return;
                     }
-
-                    RequestDispatcher dispatcher = request.getRequestDispatcher("/forms/departmentEditForm.jsp");
-                    dispatcher.forward(request, response);
-                    return;
                 }
                 case "delete": {
                     Department department;
                     try {
                         department = departmentService.getDepartmentById(id);
                         departmentService.removeDepartment(department);
+                        response.sendRedirect("/dae/departments");
+                        return;
                     } catch (ValidationException | DataException e) {
                         LOG.error("Error 500:" + e.getMessage(), e);
-                        response.sendError(500, e.getMessage());
+                        response.sendError(500);
+                        return;
                     }
-
-                    response.sendRedirect("/dae/departments");
-                    return;
                 }
                 default: {
+                    LOG.warn("Client followed " + pathInfo + ". Sent error 404.");
                     response.sendError(404);
+                    return;
                 }
             }
         }
-
         response.sendError(404);
     }
 }
