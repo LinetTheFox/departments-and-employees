@@ -1,7 +1,7 @@
 package exception;
 
 /**
- * Added for service so that servlets would know when user inputs invalid data.
+ * Thrown when invalid data is passed to a service.
  * @author linet
  */
 public class ValidationException extends Exception {

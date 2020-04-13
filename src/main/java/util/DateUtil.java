@@ -1,17 +1,11 @@
 package util;
 
-import exception.ValidationException;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
+ * Util class for working with dates
  * @author linet
  */
 public class DateUtil {

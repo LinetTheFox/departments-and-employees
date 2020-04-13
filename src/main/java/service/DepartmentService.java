@@ -6,23 +6,24 @@ import domain.Department;
 import domain.Employee;
 import exception.DataException;
 import exception.ValidationException;
+import util.ServiceUtil;
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-import static util.ServiceUtil.departmentExists;
-import static util.ServiceUtil.findIdOfDepartment;
-
 /**
+ * Service class for working with {@link DepartmentDao}
  * @author linet
  */
 public class DepartmentService {
 
-    private DepartmentDao departmentDao = new DepartmentDao();
-    private EmployeeDao employeeDao = new EmployeeDao();
+    private static final Logger LOG = LoggerFactory.getLogger(DepartmentService.class);
 
-    private static Logger LOG = LoggerFactory.getLogger(DepartmentService.class);
+    private final DepartmentDao departmentDao = new DepartmentDao();
+    private final EmployeeDao employeeDao = new EmployeeDao();
 
 
     public List<Department> listAllDepartments() throws DataException {
@@ -48,7 +49,7 @@ public class DepartmentService {
     public void addDepartment(Department department) throws ValidationException, DataException {
 
         List<Department> departments = this.listAllDepartments();
-        if (departmentExists(department, departments)) {
+        if (ServiceUtil.departmentExists(department, departments)) {
             LOG.info("Validation: department already exists.");
             throw new ValidationException("Such department already exists!");
         }
@@ -58,16 +59,16 @@ public class DepartmentService {
 
     public void editDepartment(Department oldDep, Department newDep) throws ValidationException, DataException {
         List<Department> departments = this.listAllDepartments();
-        if (!departmentExists(oldDep, departments)) {
+        if (!ServiceUtil.departmentExists(oldDep, departments)) {
             LOG.info("Validation: department doesn't exist.");
             throw new ValidationException("This department doesn't exist!");
         }
-        if (departmentExists(newDep, departments)) {
+        if (ServiceUtil.departmentExists(newDep, departments)) {
             LOG.error("Validation: department already exists.");
             throw new ValidationException("Such department already exists!");
         }
 
-        Long id = findIdOfDepartment(oldDep, departments);
+        Long id = ServiceUtil.findIdOfDepartment(oldDep, departments);
         departmentDao.update(id, newDep);
 
         List<Employee> employees = employeeDao.getAll();
@@ -85,12 +86,12 @@ public class DepartmentService {
     public void removeDepartment(Department department) throws ValidationException, DataException {
 
         List<Department> departments = this.listAllDepartments();
-        if (!departmentExists(department, departments)) {
+        if (!ServiceUtil.departmentExists(department, departments)) {
             LOG.info("Validation: department doesn't exist.");
             throw new ValidationException("This department doesn't exist!");
         }
 
-        Long departmentId = findIdOfDepartment(department, departments);
+        Long departmentId = ServiceUtil.findIdOfDepartment(department, departments);
         departmentDao.delete(departmentId);
 
         List<Employee> employees = employeeDao.getAll();

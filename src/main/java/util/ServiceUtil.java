@@ -6,6 +6,7 @@ import domain.Employee;
 import java.util.List;
 
 /**
+ * Service util class with frequently used actions
  * @author linet
  */
 public class ServiceUtil {

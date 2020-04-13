@@ -8,8 +8,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- * Factory class that creates an instance Connection for using in several Dao classes.
- * In this case - in DepartmentDao and EmployeeDao.
+ * Factory class that creates a Connection instance for using in several Dao classes.
+ * In this case - in {@link dao.DepartmentDao} and {@link dao.EmployeeDao}.
  * @author linet
  */
 public class ConnectionFactory {

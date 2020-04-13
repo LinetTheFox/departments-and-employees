@@ -3,6 +3,7 @@ package domain;
 import java.io.Serializable;
 
 /**
+ * Department domain class
  * @author linet
  */
 public class Department implements Serializable {

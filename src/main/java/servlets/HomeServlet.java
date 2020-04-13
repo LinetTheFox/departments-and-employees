@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
+ * Home page servlet
  * @author linet
  */
 public class HomeServlet extends HttpServlet {

@@ -1,10 +1,9 @@
 package dao;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
- * Dao interface to work with the
+ * Dao interface to work with the database
  * @author linet
  */
 public interface Dao<T> {

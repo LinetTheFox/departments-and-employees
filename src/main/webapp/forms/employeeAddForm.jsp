@@ -9,7 +9,12 @@
 </head>
 <body>
 <div align="center">
-    <h1>Add a new employee to department: ${departmentName}</h1>
+    <c:if test="${departmentName != null}">
+        <h1>Add a new employee to department: ${departmentName}</h1>
+    </c:if>
+    <c:if test="${departmentList != null}">
+        <h1>Add a new employee</h1>
+    </c:if>
     <form action="add" method="post">
         <table border="1" cellpadding="5">
             <tr>
@@ -33,7 +38,17 @@
             <tr>
                 <th>Department:</th>
                 <td>
-                    <input type="text" name="departmentName" size="45" value="${departmentName}" readonly/>
+                    <c:if test="${departmentList != null}">
+                        <input list="departments" name="departmentName" size="45"/>
+                        <datalist id="departments">
+                            <c:forEach items="${departmentList}" var="department">
+                                <option value="${department.name}">
+                            </c:forEach>
+                        </datalist>
+                    </c:if>
+                    <c:if test="${departmentName != null}">
+                        <input type="text" name="departmentName" size="45" value="${departmentName}" readonly/>
+                    </c:if>
                 </td>
             </tr>
             <tr>

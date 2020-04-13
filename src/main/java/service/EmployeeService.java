@@ -6,23 +6,24 @@ import domain.Department;
 import domain.Employee;
 import exception.DataException;
 import exception.ValidationException;
+import util.ServiceUtil;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static util.ServiceUtil.*;
-
 /**
+ * Service class for working with {@link EmployeeDao}
  * @author linet
  */
 public class EmployeeService {
 
-    private DepartmentDao departmentDao = new DepartmentDao();
-    private EmployeeDao employeeDao = new EmployeeDao();
+    private static final Logger LOG = LoggerFactory.getLogger(EmployeeService.class);
 
-    private static Logger LOG = LoggerFactory.getLogger(EmployeeService.class);
+    private final DepartmentDao departmentDao = new DepartmentDao();
+    private final EmployeeDao employeeDao = new EmployeeDao();
 
     public List<Employee> listAllEmployees() throws DataException {
 
@@ -43,7 +44,7 @@ public class EmployeeService {
             throw new DataException("Could not retrieve data");
         }
 
-        if (!departmentExists(department, departments)) {
+        if (!ServiceUtil.departmentExists(department, departments)) {
             LOG.info("Validation: department doesn't exist.");
             throw new ValidationException("This department doesn't exist!");
         }
@@ -68,7 +69,7 @@ public class EmployeeService {
     public void addEmployee(Employee employee) throws ValidationException, DataException {
 
         List<Employee> employees = this.listAllEmployees();
-        if (employeeEmailExists(employee, employees)) {
+        if (ServiceUtil.employeeEmailExists(employee, employees)) {
             LOG.info("Validation: employee email already exists!");
             throw new ValidationException("Employee email already exists!");
         }
@@ -79,7 +80,7 @@ public class EmployeeService {
             throw new DataException("Could not retrieve data");
         }
         Department newEmployeeDepartment = new Department(employee.getDepartmentName());
-        if (!departmentExists(newEmployeeDepartment, departments)) {
+        if (!ServiceUtil.departmentExists(newEmployeeDepartment, departments)) {
             LOG.info("Validation: such department doesn't exist");
             throw new ValidationException("Such department doesn't exist!");
         }
@@ -90,11 +91,11 @@ public class EmployeeService {
     public void editEmployee(Employee oldEmp, Employee newEmp) throws ValidationException, DataException {
 
         List<Employee> employees = this.listAllEmployees();
-        if (!employeeEmailExists(oldEmp, employees)) {
+        if (!ServiceUtil.employeeEmailExists(oldEmp, employees)) {
             LOG.info("Validation: such employee doesn't exist.");
             throw new ValidationException("Employee doesn't exist!");
         }
-        if (employeeEmailExists(newEmp, employees)) {
+        if (ServiceUtil.employeeEmailExists(newEmp, employees)) {
             LOG.info("Validation: employee email already exists.");
             throw new ValidationException("Employee email already exists!");
         }
@@ -105,24 +106,24 @@ public class EmployeeService {
             throw new DataException("Could not retrieve data");
         }
         Department newEmployeeDepartment = new Department(newEmp.getDepartmentName());
-        if (!departmentExists(newEmployeeDepartment, departments)) {
+        if (!ServiceUtil.departmentExists(newEmployeeDepartment, departments)) {
             LOG.info("Validation: such department doesn't exist");
             throw new ValidationException("Department doesn't exist");
         }
 
-        Long id = findIdOfEmployee(oldEmp, employees);
+        Long id = ServiceUtil.findIdOfEmployee(oldEmp, employees);
         employeeDao.update(id, newEmp);
     }
 
     public void removeEmployee(Employee employee) throws DataException, ValidationException {
 
         List<Employee> employees = this.listAllEmployees();
-        if (!employeeEmailExists(employee, employees)) {
+        if (!ServiceUtil.employeeEmailExists(employee, employees)) {
             LOG.info("Validation: such employee doesn't exist.");
             throw new ValidationException("Employee doesn't exist!");
         }
 
-        Long id = findIdOfEmployee(employee, employees);
+        Long id = ServiceUtil.findIdOfEmployee(employee, employees);
         employeeDao.delete(id);
     }
 }

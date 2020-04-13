@@ -1,7 +1,6 @@
 package dao;
 
 import database.ConnectionFactory;
-import domain.Department;
 import domain.Employee;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Dao class for {@link Employee}
  * @author linet
  */
 public class EmployeeDao implements Dao<Employee> {

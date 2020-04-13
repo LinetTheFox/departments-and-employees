@@ -49,7 +49,12 @@
             </tr>
         </c:forEach>
         <p>
-            <button type="button" onclick="window.location='../employees/add?departmentId=${departmentId}'">Add new employee</button>
+            <c:if test="${obtainedFromAllEmployees}">
+                <button type="button" onclick="window.location='./employees/add?departmentId=${departmentId}'">Add new employee</button>
+            </c:if>
+            <c:if test="${obtainedFromAllEmployees == null}">
+                <button type="button" onclick="window.location='../employees/add?departmentId=${departmentId}'">Add new employee</button>
+            </c:if>
         </p>
     </table>
 </div>

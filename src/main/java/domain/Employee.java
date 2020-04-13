@@ -5,11 +5,7 @@ import java.util.Date;
 import java.util.Objects;
 
 /**
- * Domain class representing an employee.
- * Note: such class doesn't exist for departments due to redundancy. Departments are
- * represented in database just by their names and manipulating employees in context
- * of their affiliation with a department can be performed simply by having the department
- * name as a field in this class.
+ * Employee domain class.
  * @author linet
  */
 public class Employee implements Serializable {
@@ -82,7 +78,6 @@ public class Employee implements Serializable {
     // Overridden methods for tests and debugging
 
     // Not comparing date due to how it is represented within DB and in an object
-    // TODO: use something else other than Date class
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Dao class for {@link Department}.
  * @author linet
  */
 public class DepartmentDao implements Dao<Department> {
